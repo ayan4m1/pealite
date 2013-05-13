@@ -2,8 +2,6 @@
 
 namespace ayan4m1\pealite;
 
-use ayan4m1\pealite\CachedApiCall;
-
 class MemcachedApiCall extends ApiCall implements ICachedApiCall {
 	private $memcached;
 	private $cached;

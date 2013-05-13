@@ -2,8 +2,6 @@
 
 namespace ayan4m1\pealite;
 
-use ayan4m1\pealite\ApiCallState;
-
 abstract class ApiCall implements IApiCall {
 	protected $method;
 	protected $corporate;
