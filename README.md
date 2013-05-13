@@ -26,16 +26,17 @@ usage example
 <?php
 
 // all calls are cached with memcached (localhost:11211) by default
-use ayan4m1\pealite\WalletJournal;
+use ayan4m1\pealite\CharWalletJournal;
 
 // fetch personal wallet journal
-$call = new WalletJournal(12345, "Verification Code");
+$call = new WalletJournal(12345, 'Verification Code');
+$call->setCharId('112233');
 
-// getState returns an ApiCacheState constant
-use ayan4m1\pealite\ApiCacheState;
+// getState returns an ApiCallState constant
+use ayan4m1\pealite\ApiCallState;
 
-// getErrors will contain useful error information
-if ($call->getState() !== ApiCacheState::SUCCESS) {
+// getErrors will contain helpful error information
+if ($call->getState() !== ApiCallState::SUCCESS) {
 	echo "Something went wrong!" . PHP_EOL;
 }
 if (count($call->getErrors()) > 0) {
@@ -44,6 +45,10 @@ if (count($call->getErrors()) > 0) {
 
 // the call contains some useful information
 print_r($call->getResponse());
+
+// unix timestamps
+print_r($call->getRequestTime());
+print_r($call->getExpiresTime());
 
 // you can obtain a SimpleXMLDocument with getResponseXml()
 $results = $call->getResponseXml();
