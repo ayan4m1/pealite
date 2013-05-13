@@ -4,7 +4,7 @@ namespace ayan4m1\pealite;
 
 use ayan4m1\pealite\CachedApiCall;
 
-class MemcachedApiCall extends CachedApiCall implements ICachedApiCall {
+class MemcachedApiCall extends ApiCall implements ICachedApiCall {
 	private $memcached;
 	private $cached;
 
@@ -15,15 +15,19 @@ class MemcachedApiCall extends CachedApiCall implements ICachedApiCall {
 	}
 
 	public function execute() {
-		$cachedCall = $this->memcached->get($apiCall->getHash());
+		$cachedCall = $this->memcached->get($this->getHash());
 		if ($cachedCall !== false) {
+			// todo: a more efficient system for setting these properties
+			foreach(get_object_vars($cachedCall) as $key => $value) {
+				if (!is_object($value)) {
+					$this->$key = $value;
+				}
+			}
 			$this->cached = true;
-			return $cachedCall;
 		} else {
 			$this->cached = false;
-			$this->execute();
-			$this->memcached->set($apiCall->getHash(), $apiCall, $apiCall->getExpiresTime());
-			return $apiCall;
+			parent::execute();
+			$this->memcached->set($this->getHash(), $this, $this->getExpiresTime());
 		}
 	}
 

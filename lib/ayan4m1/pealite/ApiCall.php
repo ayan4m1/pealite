@@ -5,26 +5,26 @@ namespace ayan4m1\pealite;
 use ayan4m1\pealite\ApiCallState;
 
 abstract class ApiCall implements IApiCall {
-	private $method;
-	private $corporate;
+	protected $method;
+	protected $corporate;
 
-	private $apiKey;
-	private $apiCode;
-	private $charId;
+	protected $apiKey;
+	protected $apiCode;
+	protected $charId;
 
-	private $response;
-	private $state;
-	private $errors;
+	protected $response;
+	protected $state;
+	protected $errors;
 
-	private $requestTime;
-	private $expiresTime;
+	protected $requestTime;
+	protected $expiresTime;
 
 	const BASE_URL = "https://api.eveonline.com/";
 	const CHAR_PREFIX = "char";
 	const CORP_PREFIX = "corp";
 
 	public function __construct($apiKey, $apiCode, $corporate = false) {
-		$this->method = str_replace(__NAMESPACE__ . '\\', '', get_class($this));
+		$this->method = str_replace('ayan4m1\\pealite\\calls\\', '', get_class($this));
 		$this->corporate = $corporate;
 		$this->apiKey = $apiKey;
 		$this->apiCode = $apiCode;
@@ -107,6 +107,6 @@ abstract class ApiCall implements IApiCall {
 	}
 
 	public function getExpiresTime() {
-		return isset($expiresTime) ? $expiresTime : time();
+		return $this->expiresTime;
 	}
 }
