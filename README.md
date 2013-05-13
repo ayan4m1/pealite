@@ -22,6 +22,7 @@ todo
 usage example
 =============
 
+````
 <?php
 
 // all calls are cached with memcached (localhost:11211) by default
@@ -51,3 +52,4 @@ foreach($results->result->rowset->row as $row) {
 }
 
 ?>
+````
