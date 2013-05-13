@@ -1,0 +1,19 @@
+{
+    "name": "ayan4m1/pealite",
+    "type": "library",
+    "description": "Lightweight PHP EVE API Library",
+    "homepage": "http://github.com/ayan4m1/pealite",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Andrew DeLisa",
+            "email": "andrew@bulletlogic.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2"
+    },
+    "autoload": {
+        "psr-0": {"ayan4m1\\pealite": ""}
+    }
+}
