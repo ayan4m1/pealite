@@ -4,6 +4,6 @@ namespace ayan4m1\pealite\calls;
 
 use ayan4m1\pealite\MemcachedApiCall;
 
-class WalletJournal extends MemcachedApiCall {
+class CorpWalletJournal extends CorpApiCall {
 	private $accountKey = 10000;
 }

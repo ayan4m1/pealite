@@ -4,12 +4,10 @@ namespace ayan4m1\pealite;
 
 abstract class ApiCall implements IApiCall {
 	protected $method;
-	protected $corporate;
-
 	protected $apiKey;
 	protected $apiCode;
-	protected $charId;
 
+	protected $parameters;
 	protected $response;
 	protected $state;
 	protected $errors;
@@ -18,31 +16,32 @@ abstract class ApiCall implements IApiCall {
 	protected $expiresTime;
 
 	const BASE_URL = "https://api.eveonline.com/";
-	const CHAR_PREFIX = "char";
-	const CORP_PREFIX = "corp";
 
-	public function __construct($apiKey, $apiCode, $corporate = false) {
-		$this->method = str_replace('ayan4m1\\pealite\\calls\\', '', get_class($this));
-		$this->corporate = $corporate;
+	public function __construct($apiKey, $apiCode) {
+		$this->method = $this->getMethodName();
 		$this->apiKey = $apiKey;
 		$this->apiCode = $apiCode;
 		$this->errors = array();
+		$this->parameters = array();
 		$this->state = ApiCallState::READY;
 	}
 
-	public function setCharId($charId) {
-		if (!$this->corporate) {
-			$this->charId = $charId;
-		}
+	private function getMethodName() {
+		$className = get_class($this);
+		$className = substr($className, strrpos($className, '\\') + 1);
+		$tokens = preg_split('/([A-Z]{1}[a-z0-9]*)/', $className, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE);
+		$object = strtolower(array_shift($tokens));
+		$method = implode($tokens);
+		return $object . '/' . $method;
 	}
 
 	public function execute() {
 		$this->state = ApiCallState::EXECUTING;
-		$apiUrl = self::BASE_URL . (($this->corporate === true) ? self::CORP_PREFIX : self::CHAR_PREFIX) . "/" . $this->method . ".xml.aspx?";
-		$apiUrl .= "keyID=" . $this->apiKey . "&";
-		$apiUrl .= "vCode=" . $this->apiCode;
-		if (!empty($this->charId)) {
-			$apiUrl .= "&characterId=" . $this->charId;
+		$apiUrl = self::BASE_URL . $this->method . '.xml.aspx?';
+		$apiUrl .= 'keyID=' . $this->apiKey . '&';
+		$apiUrl .= 'vCode=' . $this->apiCode;
+		foreach($this->parameters as $key => $value) {
+			$apiUrl .= '&' . $key . '=' . $value;
 		}
 
 		$curl = curl_init($apiUrl);
