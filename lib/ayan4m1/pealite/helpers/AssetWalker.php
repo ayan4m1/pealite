@@ -2,9 +2,7 @@
 
 namespace ayan4m1\pealite\helpers;
 
-use ayan4m1\pealite\ApiCallState;
-
-class JournalWalker implements IWalker {
+class AssetWalker implements IWalker {
 	public static function walk($call) {
 		// exec call if it has not been executed yet
 		if ($call->getState() == ApiCallState::READY) {
@@ -45,5 +43,9 @@ class JournalWalker implements IWalker {
 			}
 		}
 		return $rows;
+	}
+
+	private static function recurse($rowset, $rows) {
+		
 	}
 }
