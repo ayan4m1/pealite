@@ -6,27 +6,21 @@ use ayan4m1\pealite\CharApiCall;
 use ayan4m1\pealite\ApiCallState;
 
 class CharWalletJournal extends CharApiCall {
-	private $fromId;
-	private $rowCount = 2560;
+	function __construct($apiKey, $apiCode) {
+		parent::__construct($apiKey, $apiCode);
+		$this->parameters['fromId'] = null;
+		$this->parameters['rowCount'] = 2560;
+	}
 
-	public function execute() {
-		$this->parameters['rowCount'] = $this->rowCount;
-		if (isset($this->fromId)) {
-			$this->parameters['fromID'] = $this->fromId;
-		}
-
-		parent::execute();
+	public function setRowCount($rowCount) {
+		$this->parameters['rowCount'] = $rowCount;
 	}
 
 	public function setFromId($fromId) {
-		$this->fromId = $fromId;
+		$this->parameters['fromId'] = $fromId;
 	}
 
 	public function getFromId() {
-		return $this->fromId;
-	}
-
-	public function getHash() {
-		return parent::getHash() . $this->fromId;
+		return $this->parameters['fromId'];
 	}
 }

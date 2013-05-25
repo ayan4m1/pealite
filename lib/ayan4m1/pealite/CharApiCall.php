@@ -3,14 +3,12 @@
 namespace ayan4m1\pealite;
 
 class CharApiCall extends MemcachedApiCall {
-	private $charId;
-
-	public function execute() {
-		$this->parameters['characterID'] = $this->charId;
-		parent::execute();
+	function __construct($apiKey, $apiCode) {
+		parent::__construct($apiKey, $apiCode);
+		$this->parameters['characterID'] = null;
 	}
 
 	public function setCharId($charId) {
-		$this->charId = $charId;
+		$this->parameters['characterID'] = $charId;
 	}
 }

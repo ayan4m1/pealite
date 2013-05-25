@@ -6,8 +6,8 @@ class MemcachedApiCall extends ApiCall implements ICachedApiCall {
 	private $memcached;
 	private $cached;
 
-	public function __construct($apiKey, $apiCode, $corporate = false) {
-		parent::__construct($apiKey, $apiCode, $corporate);
+	public function __construct($apiKey, $apiCode) {
+		parent::__construct($apiKey, $apiCode);
 		$this->memcached = new \Memcached();
 		$this->memcached->addServer('localhost', 11211);
 	}
@@ -15,12 +15,7 @@ class MemcachedApiCall extends ApiCall implements ICachedApiCall {
 	public function execute() {
 		$cachedCall = $this->memcached->get($this->getHash());
 		if ($cachedCall !== false) {
-			// todo: a more efficient system for setting these properties
-			foreach(get_object_vars($cachedCall) as $key => $value) {
-				if (!is_object($value)) {
-					$this->$key = $value;
-				}
-			}
+			$this->parameters = $cachedCall->parameters;
 			$this->cached = true;
 		} else {
 			$this->cached = false;
@@ -30,7 +25,9 @@ class MemcachedApiCall extends ApiCall implements ICachedApiCall {
 	}
 
 	public function getHash() {
-		return $this->method . $this->apiKey;
+		return $this->method . $this->apiKey . array_reduce($this->parameters, function($a, $b) {
+			return $a . (isset($b) ? '.' . $b : '');
+		});
 	}
 
 	public function getCached() {

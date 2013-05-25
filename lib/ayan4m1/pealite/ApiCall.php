@@ -41,7 +41,9 @@ abstract class ApiCall implements IApiCall {
 		$apiUrl .= 'keyID=' . $this->apiKey . '&';
 		$apiUrl .= 'vCode=' . $this->apiCode;
 		foreach($this->parameters as $key => $value) {
-			$apiUrl .= '&' . $key . '=' . $value;
+			if (isset($value)) {
+				$apiUrl .= '&' . $key . '=' . $value;
+			}
 		}
 
 		$curl = curl_init($apiUrl);
