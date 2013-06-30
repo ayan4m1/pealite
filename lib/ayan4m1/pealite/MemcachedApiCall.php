@@ -16,6 +16,8 @@ class MemcachedApiCall extends ApiCall implements ICachedApiCall {
 		$cachedCall = $this->memcached->get($this->getHash());
 		if ($cachedCall !== false) {
 			$this->parameters = $cachedCall->parameters;
+			$this->response = $cachedCall->getResponse();
+			$this->state = $cachedCall->getState();
 			$this->cached = true;
 		} else {
 			$this->cached = false;
