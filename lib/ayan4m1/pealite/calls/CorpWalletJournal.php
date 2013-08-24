@@ -7,9 +7,12 @@ use ayan4m1\pealite\CorpApiCall;
 class CorpWalletJournal extends CorpApiCall {
 	function __construct($apiKey, $apiCode) {
 		parent::__construct($apiKey, $apiCode);
-		$this->parameters['fromId'] = null;
 		$this->parameters['accountKey'] = 1000;
 		$this->parameters['rowCount'] = 2560;
+	}
+
+	public function getAccountKey($accountKey) {
+		return $this->parameters['accountKey'];
 	}
 
 	public function setAccountKey($accountKey) {
@@ -17,7 +20,7 @@ class CorpWalletJournal extends CorpApiCall {
 	}
 
 	public function setFromId($fromId) {
-		$this->parameters['fromId ']= $fromId;
+		$this->parameters['fromId'] = $fromId;
 	}
 
 	public function getFromId() {

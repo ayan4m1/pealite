@@ -8,7 +8,6 @@ use ayan4m1\pealite\ApiCallState;
 class CharWalletJournal extends CharApiCall {
 	function __construct($apiKey, $apiCode) {
 		parent::__construct($apiKey, $apiCode);
-		$this->parameters['fromId'] = null;
 		$this->parameters['rowCount'] = 2560;
 	}
 
