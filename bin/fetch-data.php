@@ -76,6 +76,7 @@ function characters($apiRow) {
 	}
 
 	$charSheet = new CharCharacterSheet($apiRow['api_key'], $apiRow['api_code']);
+	$charSheet->setCharId($apiRow['player_entity_id']);
 	$charSheet->execute();
 	if (count($charSheet->getErrors()) > 0) {
 		return;
