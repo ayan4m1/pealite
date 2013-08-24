@@ -11,7 +11,7 @@ class CorpWalletJournal extends CorpApiCall {
 		$this->parameters['rowCount'] = 2560;
 	}
 
-	public function getAccountKey($accountKey) {
+	public function getAccountKey() {
 		return $this->parameters['accountKey'];
 	}
 
@@ -24,6 +24,6 @@ class CorpWalletJournal extends CorpApiCall {
 	}
 
 	public function getFromId() {
-		return $this->parameters['fromId'];
+		return isset($this->parameters['fromId']) ? $this->parameters['fromId'] : null;
 	}
 }

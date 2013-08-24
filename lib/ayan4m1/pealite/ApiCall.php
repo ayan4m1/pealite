@@ -54,7 +54,7 @@ abstract class ApiCall implements IApiCall {
 		$respCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 		curl_close($curl);
 		if ($respCode != 200) {
-			$this->state = ERROR_HTTP;
+			$this->state = ApiCallState::ERROR_HTTP;
 			$this->errors[] = "HTTP Error: Response code " . $respCode;
 			return;
 		}

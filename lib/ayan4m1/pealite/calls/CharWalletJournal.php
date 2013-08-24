@@ -20,6 +20,6 @@ class CharWalletJournal extends CharApiCall {
 	}
 
 	public function getFromId() {
-		return $this->parameters['fromId'];
+		return isset($this->parameters['fromId']) ? $this->parameters['fromId'] : null;
 	}
 }
